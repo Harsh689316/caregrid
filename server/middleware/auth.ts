@@ -1,7 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'caregrid_production_jwt_super_secret_key_2026_healthcare';
+function getJwtSecret(): string {
+  const secret = process.env.JWT_SECRET;
+
+  if (!secret || secret.length < 32) {
+    throw new Error(
+      'JWT_SECRET must be configured and contain at least 32 characters.',
+    );
+  }
+
+  return secret;
+}
 
 export interface AuthenticatedUser {
   id: number;
@@ -23,28 +33,41 @@ declare global {
 }
 
 export function generateToken(user: AuthenticatedUser): string {
-  return jwt.sign(user, JWT_SECRET, { expiresIn: '12h' });
+  return jwt.sign(user, getJwtSecret(), { expiresIn: '12h' });
 }
 
 export function authenticate(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({
       success: false,
-      error: { code: 'UNAUTHORIZED', message: 'Authentication required. Missing Bearer token.' },
+      error: {
+        code: 'UNAUTHORIZED',
+        message: 'Authentication required. Missing Bearer token.',
+      },
       requestId: req.requestId,
     });
   }
 
   const token = authHeader.substring(7);
+
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as AuthenticatedUser;
-    req.user = decoded;
+    const decoded = jwt.verify(token, getJwtSecret());
+
+    if (typeof decoded !== 'object' || decoded === null) {
+      throw new Error('Invalid token payload.');
+    }
+
+    req.user = decoded as unknown as AuthenticatedUser;
     next();
-  } catch (err: any) {
+  } catch {
     return res.status(401).json({
       success: false,
-      error: { code: 'TOKEN_INVALID_OR_EXPIRED', message: 'Session expired or token invalid. Please log in again.' },
+      error: {
+        code: 'TOKEN_INVALID_OR_EXPIRED',
+        message: 'Session expired or token invalid. Please log in again.',
+      },
       requestId: req.requestId,
     });
   }
@@ -55,7 +78,10 @@ export function authorize(roles: string[]) {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        error: { code: 'UNAUTHORIZED', message: 'Authentication required.' },
+        error: {
+          code: 'UNAUTHORIZED',
+          message: 'Authentication required.',
+        },
         requestId: req.requestId,
       });
     }
