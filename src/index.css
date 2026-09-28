@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #020617;
+    --bg-secondary: #0f172a;
+    --bg-card: #1e293b;
+    --border-color: #334155;
+    --text-primary: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-teal: #14b8a6;
+    --accent-blue: #38bdf8;
+  }
+
+  .theme-light {
+    --bg-primary: #f8fafc;
+    --bg-secondary: #ffffff;
+    --bg-card: #f1f5f9;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-muted: #475569;
+    --accent-teal: #0d9488;
+    --accent-blue: #0284c7;
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+  }
+
+  .theme-contrast {
+    --bg-primary: #000000;
+    --bg-secondary: #0a0a0a;
+    --bg-card: #121212;
+    --border-color: #ffff00;
+    --text-primary: #ffffff;
+    --text-muted: #ffff88;
+    --accent-teal: #00ffcc;
+    --accent-blue: #00e5ff;
+    background-color: #000000 !important;
+    color: #ffffff !important;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}

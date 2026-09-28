@@ -1,0 +1,6 @@
+{
+  "name": "CAREGRID",
+  "description": "Healthcare Operations & Intelligence Platform - Unified operational tracking, staff scheduling, real-time alerts, service availability, and demand analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
