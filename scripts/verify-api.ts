@@ -3,7 +3,7 @@ import http from 'http';
 async function runApiVerification() {
   console.log('--- CAREGRID API ENDPOINT & CONTRACT VERIFICATION ---');
 
-  const BASE_URL = 'http://127.0.0.1:3000';
+  const BASE_URL = 'http://127.0.0.1:4000';
   let failures = 0;
 
   async function request(path: string, options: any = {}) {
