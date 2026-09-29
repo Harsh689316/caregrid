@@ -5,7 +5,7 @@
 
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/9990fb00-98fe-46db-a263-29cd2c9eabd1
+Click to open Application: https://caregrid-jgvl.onrender.com/
 
 ## Run Locally
 
